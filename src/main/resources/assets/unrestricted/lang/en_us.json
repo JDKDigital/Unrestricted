@@ -17,6 +17,7 @@
   "unrestricted.configuration.requireUnrestrictedClientMessage": "Message for clients without Unrestricted",
 
   "unrestricted.configuration.warnOnReportableServer": "Warn on servers without Unrestricted",
+  "unrestricted.configuration.disableTelemetry": "Disable telemetry",
   "unrestricted.configuration.hideWarningToast": "Hide \"can't be verified\" toast",
   "unrestricted.configuration.hideSystemMessageIndicators": "Hide system message indicators",
   "unrestricted.configuration.hideInsecureMessageIndicators": "Hide \"Not Secure\" indicators"

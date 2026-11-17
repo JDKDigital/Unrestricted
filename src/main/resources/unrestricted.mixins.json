@@ -12,10 +12,12 @@
   ],
   "client": [
     "client.MixinChatListener",
+    "client.MixinClientTelemetryManager",
     "client.MixinConnectScreen",
     "client.MixinGuiMessageTag",
     "client.MixinMinecraft",
     "client.MixinPlayerEntry",
+    "client.MixinTelemetryInfoScreen",
     "client.MixinTitleScreen",
     "client.MixinToastComponent"
   ],

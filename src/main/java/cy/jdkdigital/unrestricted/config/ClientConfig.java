@@ -9,6 +9,10 @@ public class ClientConfig {
             .comment("When joining a multiplayer server without Unrestricted, show a chat line saying that chat on that server can still be reported.")
             .define("warnOnReportableServer", true);
 
+    public static final ModConfigSpec.BooleanValue DISABLE_TELEMETRY = BUILDER
+            .comment("Send no telemetry at all. This is the \"None\" choice for Data Collection in the game's Telemetry Data screen; it takes effect from the next world you join.")
+            .define("disableTelemetry", false);
+
     public static final ModConfigSpec.BooleanValue HIDE_WARNING_TOAST = BUILDER
             .comment("Hide the \"chat messages can't be verified\" toast shown when joining.")
             .define("hideWarningToast", true);
