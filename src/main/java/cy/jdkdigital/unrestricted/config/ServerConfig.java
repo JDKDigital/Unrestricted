@@ -22,7 +22,7 @@ public class ServerConfig {
             .define("allowMultiplayerDisabledAccounts", false);
 
     public static final ModConfigSpec.BooleanValue ALLOW_CHAT_DISABLED_ACCOUNTS = BUILDER
-            .comment("Let players whose Microsoft account has chat turned off use chat and commands on this server; the client blocks both with the same check. Needs Unrestricted on the client.",
+            .comment("Let players whose Microsoft account has chat turned off send and see player chat on this server. Commands work for them either way. Needs Unrestricted on the client.",
                     "Chat can be off because a parent turned it off in Microsoft Family Safety, or because of a regional age-verification requirement (such as the UK's) the player hasn't completed.",
                     "The account data doesn't say which, so turning this on overrides both on this server.")
             .define("allowChatDisabledAccounts", false);

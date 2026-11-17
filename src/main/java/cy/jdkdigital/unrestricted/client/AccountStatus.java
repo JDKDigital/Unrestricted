@@ -6,13 +6,12 @@ import cy.jdkdigital.unrestricted.api.AccountFlags;
 import cy.jdkdigital.unrestricted.api.MultiplayerBan;
 import cy.jdkdigital.unrestricted.network.AccountReportPayload;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.User;
 
 import java.util.Optional;
 
 public class AccountStatus {
     public static boolean hasAccount(Minecraft minecraft) {
-        return minecraft.getUser().getType() == User.Type.MSA;
+        return !minecraft.isOfflineDeveloperMode();
     }
 
     public static boolean accountAllowsMultiplayer(Minecraft minecraft) {

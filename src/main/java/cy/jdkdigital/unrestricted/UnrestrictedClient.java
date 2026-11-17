@@ -27,7 +27,7 @@ public class UnrestrictedClient {
     private static void onLoggingIn(ClientPlayerNetworkEvent.LoggingIn event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (!ClientState.isOnUnrestrictedServer() && !minecraft.isLocalServer() && ClientConfig.WARN_ON_REPORTABLE_SERVER.get()) {
-            minecraft.gui.getChat().addMessage(Component.translatable("chat.unrestricted.reportable_server").withStyle(ChatFormatting.YELLOW));
+            minecraft.gui.getChat().addClientSystemMessage(Component.translatable("chat.unrestricted.reportable_server").withStyle(ChatFormatting.YELLOW));
         }
     }
 

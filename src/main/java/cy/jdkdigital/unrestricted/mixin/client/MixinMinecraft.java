@@ -5,6 +5,8 @@ import cy.jdkdigital.unrestricted.client.AccountStatus;
 import cy.jdkdigital.unrestricted.client.ClientState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ProfileKeyPairManager;
+import net.minecraft.client.multiplayer.chat.ChatAbilities;
+import net.minecraft.client.multiplayer.chat.ChatRestriction;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,10 +27,15 @@ public abstract class MixinMinecraft {
         }
     }
 
-    @Inject(method = "getChatStatus", at = @At("RETURN"), cancellable = true)
-    private void unrestricted$onGetChatStatus(CallbackInfoReturnable<Minecraft.ChatStatus> cir) {
-        if (cir.getReturnValue() == Minecraft.ChatStatus.DISABLED_BY_PROFILE && ClientState.allowsChatDisabledAccounts()) {
-            cir.setReturnValue(Minecraft.ChatStatus.ENABLED);
+    @Inject(method = "computeChatAbilities", at = @At("RETURN"), cancellable = true)
+    private void unrestricted$onComputeChatAbilities(CallbackInfoReturnable<ChatAbilities> cir) {
+        ChatAbilities abilities = cir.getReturnValue();
+        if (ClientState.allowsChatDisabledAccounts() && abilities.restrictions().anyMatch(restriction -> restriction == ChatRestriction.DISABLED_BY_PROFILE)) {
+            ChatAbilities.Builder builder = new ChatAbilities.Builder();
+            abilities.restrictions()
+                    .filter(restriction -> restriction != ChatRestriction.DISABLED_BY_PROFILE)
+                    .forEach(builder::addRestriction);
+            cir.setReturnValue(builder.build());
         }
     }
 

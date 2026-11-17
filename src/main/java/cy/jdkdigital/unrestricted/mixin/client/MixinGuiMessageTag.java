@@ -2,7 +2,7 @@ package cy.jdkdigital.unrestricted.mixin.client;
 
 import cy.jdkdigital.unrestricted.client.ClientState;
 import cy.jdkdigital.unrestricted.config.ClientConfig;
-import net.minecraft.client.GuiMessageTag;
+import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

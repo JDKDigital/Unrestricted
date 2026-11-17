@@ -1,7 +1,7 @@
 package cy.jdkdigital.unrestricted.mixin.server;
 
 import cy.jdkdigital.unrestricted.config.ServerConfig;
-import net.minecraft.network.PacketSendListener;
+import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundPlayerChatPacket;
@@ -37,11 +37,11 @@ public abstract class MixinServerCommonPacketListenerImpl {
      * @reason Ensure conversion works regardless of which send method is used.
      * @author Aizistral
      */
-    @Inject(method = "send(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketSendListener;)V", at = @At("HEAD"), cancellable = true)
-    private void unrestricted$onSend(Packet<?> packet, @Nullable PacketSendListener sendListener, CallbackInfo ci) {
+    @Inject(method = "send(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;)V", at = @At("HEAD"), cancellable = true)
+    private void unrestricted$onSend(Packet<?> packet, @Nullable ChannelFutureListener channelFutureListener, CallbackInfo ci) {
         if ((Object) this instanceof ServerGamePacketListenerImpl listener
                 && packet instanceof ClientboundPlayerChatPacket chat
-                && sendListener != null
+                && channelFutureListener != null
                 && ServerConfig.CONVERT_TO_GAME_MESSAGE.get()) {
             ci.cancel();
             listener.send(chat);

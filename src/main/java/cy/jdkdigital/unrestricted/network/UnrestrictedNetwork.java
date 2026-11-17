@@ -36,7 +36,7 @@ public class UnrestrictedNetwork {
         AccountFlags flags = report.flags();
         boolean localOwner = context.connection().isMemoryConnection();
         AccountReportEvent event = NeoForge.EVENT_BUS.post(new AccountReportEvent(configuration.getOwner(), flags, localOwner, refusalFor(flags)));
-        String name = event.getProfile().getName();
+        String name = event.getProfile().name();
         Optional<Component> refusal = event.getRefusal();
         if (refusal.isPresent() && !localOwner) {
             Unrestricted.LOGGER.info("Refused {}: {}", name, refusal.get().getString());

@@ -5,14 +5,14 @@ import cy.jdkdigital.unrestricted.config.ServerConfig;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.configuration.ServerConfigurationPacketListener;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.network.ConfigurationTask;
 import net.neoforged.neoforge.network.configuration.ICustomConfigurationTask;
 
 import java.util.function.Consumer;
 
 public record AccountCheckTask(ServerConfigurationPacketListener listener) implements ICustomConfigurationTask {
-    public static final ConfigurationTask.Type TYPE = new ConfigurationTask.Type(ResourceLocation.fromNamespaceAndPath(Unrestricted.MODID, "account_check"));
+    public static final ConfigurationTask.Type TYPE = new ConfigurationTask.Type(Identifier.fromNamespaceAndPath(Unrestricted.MODID, "account_check"));
 
     @Override
     public void run(Consumer<CustomPacketPayload> sender) {
