@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cy.jdkdigital.unrestricted.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "server.MixinPlayerList",
+    "server.MixinServerCommonPacketListenerImpl",
+    "server.MixinServerboundChatCommandSignedPacket",
+    "server.MixinServerboundChatPacket",
+    "server.MixinServerboundChatSessionUpdatePacket"
+  ],
+  "client": [
+    "client.MixinChatListener",
+    "client.MixinConnectScreen",
+    "client.MixinGuiMessageTag",
+    "client.MixinMinecraft",
+    "client.MixinPlayerEntry",
+    "client.MixinTitleScreen",
+    "client.MixinToastComponent"
+  ],
+  "server": [
+    "server.MixinDedicatedServer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "chat.unrestricted.reportable_server": "This server doesn't run Unrestricted: your chat here is signed and can still be reported by other players.",
+  "disconnect.unrestricted.banned": "This server doesn't allow accounts that are banned from online play.",
+  "disconnect.unrestricted.multiplayer_disabled": "This server doesn't allow accounts with multiplayer turned off in their Microsoft account settings.",
+
+  "unrestricted.configuration.title": "Unrestricted",
+  "unrestricted.configuration.section.unrestricted.server.toml": "Server settings",
+  "unrestricted.configuration.section.unrestricted.server.toml.title": "Unrestricted server settings",
+  "unrestricted.configuration.section.unrestricted.client.toml": "Client settings",
+  "unrestricted.configuration.section.unrestricted.client.toml.title": "Unrestricted client settings",
+
+  "unrestricted.configuration.convertToGameMessage": "Send chat as system messages",
+  "unrestricted.configuration.allowBannedAccounts": "Allow banned accounts",
+  "unrestricted.configuration.allowMultiplayerDisabledAccounts": "Allow accounts with multiplayer off",
+  "unrestricted.configuration.allowChatDisabledAccounts": "Allow chat for accounts with chat off",
+  "unrestricted.configuration.requireUnrestrictedClient": "Require Unrestricted on clients",
+  "unrestricted.configuration.requireUnrestrictedClientMessage": "Message for clients without Unrestricted",
+
+  "unrestricted.configuration.warnOnReportableServer": "Warn on servers without Unrestricted",
+  "unrestricted.configuration.hideWarningToast": "Hide \"can't be verified\" toast",
+  "unrestricted.configuration.hideSystemMessageIndicators": "Hide system message indicators",
+  "unrestricted.configuration.hideInsecureMessageIndicators": "Hide \"Not Secure\" indicators"
+}
