@@ -1,9 +1,14 @@
 package cy.jdkdigital.unrestricted.client;
 
+import com.mojang.authlib.minecraft.BanDetails;
 import com.mojang.authlib.minecraft.UserApiService;
+import cy.jdkdigital.unrestricted.api.AccountFlags;
+import cy.jdkdigital.unrestricted.api.MultiplayerBan;
 import cy.jdkdigital.unrestricted.network.AccountReportPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.User;
+
+import java.util.Optional;
 
 public class AccountStatus {
     public static boolean hasAccount(Minecraft minecraft) {
@@ -18,15 +23,19 @@ public class AccountStatus {
 
     public static AccountReportPayload report(Minecraft minecraft) {
         if (!hasAccount(minecraft)) {
-            return new AccountReportPayload(false, false, false, true, true);
+            return new AccountReportPayload(AccountFlags.NO_ACCOUNT);
         }
         UserApiService.UserProperties properties = minecraft.userProperties();
-        return new AccountReportPayload(
+        return new AccountReportPayload(new AccountFlags(
                 true,
-                minecraft.multiplayerBan() != null,
+                Optional.ofNullable(minecraft.multiplayerBan()).map(AccountStatus::toMultiplayerBan),
                 minecraft.isNameBanned(),
                 properties.flag(UserApiService.UserFlag.SERVERS_ALLOWED),
                 properties.flag(UserApiService.UserFlag.CHAT_ALLOWED)
-        );
+        ));
+    }
+
+    private static MultiplayerBan toMultiplayerBan(BanDetails ban) {
+        return new MultiplayerBan(Optional.ofNullable(ban.expires()), Optional.ofNullable(ban.reason()), Optional.ofNullable(ban.reasonMessage()));
     }
 }

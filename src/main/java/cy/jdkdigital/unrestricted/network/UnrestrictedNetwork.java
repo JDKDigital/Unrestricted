@@ -1,14 +1,20 @@
 package cy.jdkdigital.unrestricted.network;
 
 import cy.jdkdigital.unrestricted.Unrestricted;
+import cy.jdkdigital.unrestricted.api.AccountFlags;
+import cy.jdkdigital.unrestricted.api.event.AccountReportEvent;
 import cy.jdkdigital.unrestricted.client.ClientPayloadHandler;
 import cy.jdkdigital.unrestricted.config.ServerConfig;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.network.ServerConfigurationPacketListenerImpl;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class UnrestrictedNetwork {
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
@@ -23,23 +29,34 @@ public class UnrestrictedNetwork {
     }
 
     private static void handleAccountReport(AccountReportPayload report, IPayloadContext context) {
-        Component refusal = refusalFor(report);
-        if (refusal != null && !context.connection().isMemoryConnection()) {
-            Unrestricted.LOGGER.info("Refused {}: {}", context.connection().getLoggableAddress(true), refusal.getString());
-            context.disconnect(refusal);
-        } else {
+        if (!(context.listener() instanceof ServerConfigurationPacketListenerImpl configuration)) {
             context.finishCurrentTask(AccountCheckTask.TYPE);
+            return;
         }
+        AccountFlags flags = report.flags();
+        boolean localOwner = context.connection().isMemoryConnection();
+        AccountReportEvent event = NeoForge.EVENT_BUS.post(new AccountReportEvent(configuration.getOwner(), flags, localOwner, refusalFor(flags)));
+        String name = event.getProfile().getName();
+        Optional<Component> refusal = event.getRefusal();
+        if (refusal.isPresent() && !localOwner) {
+            Unrestricted.LOGGER.info("Refused {}: {}", name, refusal.get().getString());
+            context.disconnect(refusal.get());
+            return;
+        }
+        if (flags.isBanned()) {
+            Unrestricted.LOGGER.info("{} joined with a banned account: {}", name, flags);
+        }
+        context.finishCurrentTask(AccountCheckTask.TYPE);
     }
 
-    private static @Nullable Component refusalFor(AccountReportPayload report) {
-        if (!report.hasAccount()) {
+    private static @Nullable Component refusalFor(AccountFlags flags) {
+        if (!flags.hasAccount()) {
             return null;
         }
-        if ((report.multiplayerBanned() || report.nameBanned()) && !ServerConfig.ALLOW_BANNED_ACCOUNTS.get()) {
+        if (flags.isBanned() && !ServerConfig.ALLOW_BANNED_ACCOUNTS.get()) {
             return Component.translatable("disconnect.unrestricted.banned");
         }
-        if (!report.multiplayerAllowed() && !ServerConfig.ALLOW_MULTIPLAYER_DISABLED_ACCOUNTS.get()) {
+        if (!flags.multiplayerAllowed() && !ServerConfig.ALLOW_MULTIPLAYER_DISABLED_ACCOUNTS.get()) {
             return Component.translatable("disconnect.unrestricted.multiplayer_disabled");
         }
         return null;
